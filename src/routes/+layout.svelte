@@ -6,8 +6,9 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 
-    import {AppBar, AppShell, Drawer, drawerStore } from "@skeletonlabs/skeleton";
+    import {AppBar, AppShell, Avatar, Drawer, drawerStore, LightSwitch} from "@skeletonlabs/skeleton";
     import type { DrawerSettings } from '@skeletonlabs/skeleton';
+    import type { LayoutServerData } from "./$types";
 
     const drawerSettings: DrawerSettings = {
         id: 'nav-drawer',
@@ -24,6 +25,8 @@
     function closeDrawer() {
         drawerStore.close();
     }
+
+    export let data: LayoutServerData;
 </script>
 
 <AppShell>
@@ -36,6 +39,8 @@
             <a href="/" class="h3">D2 Guides</a>
 
             <svelte:fragment slot="trail">
+                <LightSwitch />
+
                 <button class="sm:hidden btn-icon" on:click={openDrawer}>
                     <i class="fa-solid fa-bars scale-125"></i>
                 </button>
@@ -47,7 +52,7 @@
                             Guides
                         </a>
 
-                        <a on:click={closeDrawer} class="flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
+                        <a href="/login" on:click={closeDrawer} class="flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
                             <i class="fa-brands fa-github scale-110"></i>
                             Login with GitHub
                         </a>
@@ -58,10 +63,14 @@
                     <i class="fa-solid fa-book scale-110"></i>
                     Guides
                 </a>
-                <a class="hidden sm:flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
-                    <i class="fa-brands fa-github scale-110"></i>
-                    Login with GitHub
-                </a>
+                {#if !data.loggedIn}
+                    <a href="/login" class="hidden sm:flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
+                        <i class="fa-brands fa-github scale-110"></i>
+                        Login with GitHub
+                    </a>
+                {:else}
+                    <Avatar src="{data.user.avatar_url}" width="w-10" rounded="rounded-full" />
+                {/if}
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>
