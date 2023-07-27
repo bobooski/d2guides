@@ -51,41 +51,49 @@
                 <LightSwitch />
 
                 <button class="sm:hidden btn-icon" on:click={openDrawer}>
-                    <i class="fa-solid fa-bars scale-125"></i>
+                    <i class='bx bx-menu scale-150'></i>
                 </button>
 
                 <Drawer>
                     <div class="flex gap-3 items-center justify-center m-2">
                         <a href="/guides" on:click={closeDrawer} class="flex btn variant-ghost-primary gap-3 hover:cursor-pointer">
-                            <i class="fa-solid fa-book scale-110"></i>
+                            <i class='bx bx-book-bookmark scale-125'></i>
                             Guides
                         </a>
 
                         <a href="/login" on:click={closeDrawer} class="flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
-                            <i class="fa-brands fa-github scale-110"></i>
+                            <i class='bx bxl-github scale-125'></i>
                             Login with GitHub
                         </a>
                     </div>
                 </Drawer>
 
                 <a href="/guides" class="hidden sm:flex btn variant-ghost-primary gap-3 hover:cursor-pointer">
-                    <i class="fa-solid fa-book scale-110"></i>
+                    <i class='bx bx-book-bookmark scale-125'></i>
                     Guides
                 </a>
                 {#if !data.loggedIn}
                     <a href="/login" class="hidden sm:flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
-                        <i class="fa-brands fa-github scale-110"></i>
+                        <i class='bx bxl-github scale-125'></i>
                         Login with GitHub
                     </a>
                 {:else}
-                    <button class="btn" use:popup={popupFeatured}>
+                    <button class="btn m-0 hidden sm:flex" use:popup={popupFeatured}>
                         <Avatar src="{data.user.avatar_url}" width="w-10" rounded="rounded-full" />
                     </button>
 
                     <div class="card p-4 w-64 shadow-xl" data-popup="popupFeatured">
-                        <a class="flex gap-3 scale-y-90 items-center w-full p-3 rounded-md hover:bg-surface-900 cursor-no-drop">
-                            <i class="fa-regular fa-user"></i>
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-900 cursor-no-drop">
+                            <i class='bx bx-user scale-110'></i>
                             <a class="">Your Profile</a>
+                        </a>
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-900 cursor-no-drop">
+                            <i class='bx bx-folder scale-110'></i>
+                            <a class="">Your Contributions</a>
+                        </a>
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-900 cursor-no-drop">
+                            <i class='bx bx-cog scale-110'></i>
+                            <a class="">Settings</a>
                         </a>
                         <hr class="my-3" />
                         <a href="/logout" class="btn variant-ghost-error text-sm w-full">Sign Out</a>
