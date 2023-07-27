@@ -29,6 +29,11 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
         throw redirect(307, 'https://github.com/login/oauth/authorize?' + params);
     }
 
+    if (event.url.pathname.startsWith('/logout')) {
+        event.cookies.delete('access_token');
+        throw redirect(308, redirectUri);
+    }
+
     if (event.url.searchParams.has('code') && event.url.searchParams.has('state')) {
         if (!event.cookies.get('state')) throw redirect(308, redirectUri);
 

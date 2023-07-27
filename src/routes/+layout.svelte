@@ -6,9 +6,12 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 
-    import {AppBar, AppShell, Avatar, Drawer, drawerStore, LightSwitch} from "@skeletonlabs/skeleton";
-    import type { DrawerSettings } from '@skeletonlabs/skeleton';
+    import { AppBar, AppShell, Avatar, Drawer, drawerStore, LightSwitch, popup, storePopup } from "@skeletonlabs/skeleton";
+    import type { DrawerSettings, PopupSettings } from '@skeletonlabs/skeleton';
     import type { LayoutServerData } from "./$types";
+    import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+
+    storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
     const drawerSettings: DrawerSettings = {
         id: 'nav-drawer',
@@ -17,6 +20,12 @@
         width: 'w-full',
         padding: 'p-0'
     }
+
+    const popupFeatured: PopupSettings = {
+        event: 'click',
+        target: 'popupFeatured',
+        placement: 'bottom'
+    };
 
     function openDrawer() {
         drawerStore.open(drawerSettings);
@@ -69,8 +78,21 @@
                         Login with GitHub
                     </a>
                 {:else}
-                    <Avatar src="{data.user.avatar_url}" width="w-10" rounded="rounded-full" />
+                    <button class="btn" use:popup={popupFeatured}>
+                        <Avatar src="{data.user.avatar_url}" width="w-10" rounded="rounded-full" />
+                    </button>
+
+                    <div class="card p-4 w-64 shadow-xl" data-popup="popupFeatured">
+                        <a class="flex gap-3 scale-y-90 items-center w-full p-3 rounded-md hover:bg-surface-900 cursor-no-drop">
+                            <i class="fa-regular fa-user"></i>
+                            <a class="">Your Profile</a>
+                        </a>
+                        <hr class="my-3" />
+                        <a href="/logout" class="btn variant-ghost-error text-sm w-full">Sign Out</a>
+                    </div>
                 {/if}
+
+                <div class="card p-4 w-72 shadow-xl" data-popup="profilePopup"></div>
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>
