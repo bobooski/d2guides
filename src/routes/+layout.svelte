@@ -56,9 +56,39 @@
 
                 <Drawer>
                     {#if data.loggedIn}
-                        <div class="flex m-5">
-                            <Avatar src="{data.user.avatar_url}" width="w-32" rounded="rounded-full" shadow="shadow-lg" />
+                        <div class="flex gap-5 m-5 items-center">
+                            <Avatar src="{data.user.avatar_url}" width="w-1/6" rounded="rounded-full" shadow="shadow-lg" />
+                            <div class="flex flex-col gap-1">
+                                <p>Hi there, <strong class="underline">@{data.user.login}</strong>!</p>
+                                <small class="text-surface-600-300-token">Signed in with GitHub.</small>
+                            </div>
                         </div>
+
+                        <hr />
+
+                        <div class="flex justify-center w-full my-5">
+                            <a href="/guides" class="btn flex gap-3 variant-ghost-primary mx-3 w-full text-sm">
+                                <i class='bx bx-book-bookmark scale-125'></i>
+                                Guides
+                            </a>
+                            <a href="/logout" class="btn variant-ghost-error w-full mx-3 text-sm">Sign Out</a>
+                        </div>
+
+                        <hr/>
+
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-50-900-token cursor-no-drop">
+                            <i class='bx bx-user scale-110'></i>
+                            <a class="">Your Profile</a>
+                        </a>
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-50-900-token cursor-no-drop">
+                            <i class='bx bx-folder scale-110'></i>
+                            <a class="">Your Contributions</a>
+                        </a>
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-50-900-token cursor-no-drop">
+                            <i class='bx bx-cog scale-110'></i>
+                            <a class="">Settings</a>
+                        </a>
+
                     {:else}
                         <div class="flex gap-3 items-center justify-center m-2">
                             <a href="/guides" on:click={closeDrawer} class="flex btn variant-ghost-primary gap-3 hover:cursor-pointer">
@@ -84,20 +114,20 @@
                         Login with GitHub
                     </a>
                 {:else}
-                    <button class="btn m-0 hidden sm:flex" use:popup={popupFeatured}>
+                    <button class="btn p-0 hidden sm:flex" use:popup={popupFeatured}>
                         <Avatar src="{data.user.avatar_url}" width="w-10" rounded="rounded-full" />
                     </button>
 
                     <div class="card p-4 w-64 shadow-xl" data-popup="popupFeatured">
-                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-900 cursor-no-drop">
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-50-900-token cursor-no-drop">
                             <i class='bx bx-user scale-110'></i>
                             <a class="">Your Profile</a>
                         </a>
-                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-900 cursor-no-drop">
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-50-900-token cursor-no-drop">
                             <i class='bx bx-folder scale-110'></i>
                             <a class="">Your Contributions</a>
                         </a>
-                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-900 cursor-no-drop">
+                        <a class="flex gap-3 items-center w-full py-2 px-3 rounded-md hover:bg-surface-50-900-token cursor-no-drop">
                             <i class='bx bx-cog scale-110'></i>
                             <a class="">Settings</a>
                         </a>
