@@ -1,7 +1,6 @@
 import type { Handle } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
-import { dev } from '$app/environment';
-import { CLIENT_ID, CLIENT_SECRET } from "$env/static/private";
+import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from "$env/static/private";
 import { nanoid } from 'nanoid';
 
 type TokenResponse = {
@@ -11,9 +10,9 @@ type TokenResponse = {
 };
 
 export const handle = (async ({ event, resolve }): Promise<Response> => {
-    const redirectUri = dev ? 'http://localhost:5173' : 'https://d2guides.net';
+
     if (event.url.pathname.startsWith('/login')) {
-        if (event.cookies.get('access_token')) throw redirect(308, redirectUri);
+        if (event.cookies.get('access_token')) throw redirect(308, REDIRECT_URI);
 
         const state = nanoid(15);
 
@@ -21,7 +20,7 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
 
         const params = new URLSearchParams({
             client_id: CLIENT_ID,
-            redirect_uri: redirectUri,
+            redirect_uri: REDIRECT_URI,
             scope: 'read:user',
             state: state
         });
@@ -31,24 +30,24 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
 
     if (event.url.pathname.startsWith('/logout')) {
         event.cookies.delete('access_token');
-        throw redirect(308, redirectUri);
+        throw redirect(308, REDIRECT_URI);
     }
 
     if (event.url.searchParams.has('code') && event.url.searchParams.has('state')) {
-        if (!event.cookies.get('state')) throw redirect(308, redirectUri);
+        if (!event.cookies.get('state')) throw redirect(308, REDIRECT_URI);
 
         const code = event.url.searchParams.get('code') ?? '';
         const stateFromUrl = event.url.searchParams.get('state');
         const stateFromCookie = event.cookies.get('state');
 
-        if (stateFromCookie !== stateFromUrl) throw redirect(308, redirectUri);
+        if (stateFromCookie !== stateFromUrl) throw redirect(308, REDIRECT_URI);
         event.cookies.delete('state');
 
         const params = new URLSearchParams({
             client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
             code: code,
-            redirect_uri: redirectUri
+            redirect_uri: REDIRECT_URI
         });
 
         const response: TokenResponse = await fetch('https://github.com/login/oauth/access_token?' + params, {

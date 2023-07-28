@@ -16,8 +16,8 @@
     const drawerSettings: DrawerSettings = {
         id: 'nav-drawer',
         position: 'right',
-        height: 'h-16',
-        width: 'w-full',
+        height: 'h-full',
+        width: 'w-3/4',
         padding: 'p-0'
     }
 
@@ -50,22 +50,28 @@
             <svelte:fragment slot="trail">
                 <LightSwitch />
 
-                <button class="sm:hidden btn-icon" on:click={openDrawer}>
+                <button class="sm:hidden btn-sm variant-ghost-surface" on:click={openDrawer}>
                     <i class='bx bx-menu scale-150'></i>
                 </button>
 
                 <Drawer>
-                    <div class="flex gap-3 items-center justify-center m-2">
-                        <a href="/guides" on:click={closeDrawer} class="flex btn variant-ghost-primary gap-3 hover:cursor-pointer">
-                            <i class='bx bx-book-bookmark scale-125'></i>
-                            Guides
-                        </a>
+                    {#if data.loggedIn}
+                        <div class="flex m-5">
+                            <Avatar src="{data.user.avatar_url}" width="w-32" rounded="rounded-full" shadow="shadow-lg" />
+                        </div>
+                    {:else}
+                        <div class="flex gap-3 items-center justify-center m-2">
+                            <a href="/guides" on:click={closeDrawer} class="flex btn variant-ghost-primary gap-3 hover:cursor-pointer">
+                                <i class='bx bx-book-bookmark scale-125'></i>
+                                Guides
+                            </a>
 
-                        <a href="/login" on:click={closeDrawer} class="flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
-                            <i class='bx bxl-github scale-125'></i>
-                            Login with GitHub
-                        </a>
-                    </div>
+                            <a href="/login" on:click={closeDrawer} class="flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
+                                <i class='bx bxl-github scale-125'></i>
+                                Login with GitHub
+                            </a>
+                        </div>
+                    {/if}
                 </Drawer>
 
                 <a href="/guides" class="hidden sm:flex btn variant-ghost-primary gap-3 hover:cursor-pointer">
