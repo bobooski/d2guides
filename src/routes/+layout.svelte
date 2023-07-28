@@ -67,7 +67,7 @@
                         <hr />
 
                         <div class="flex justify-center w-full my-5">
-                            <a href="/guides" class="btn flex gap-3 variant-ghost-primary mx-3 w-full text-sm">
+                            <a href="/guides" on:click={closeDrawer} class="btn flex gap-3 variant-ghost-primary mx-3 w-full text-sm">
                                 <i class='bx bx-book-bookmark scale-125'></i>
                                 Guides
                             </a>
@@ -88,19 +88,29 @@
                             <i class='bx bx-cog scale-110'></i>
                             <a class="">Settings</a>
                         </a>
-
                     {:else}
-                        <div class="flex gap-3 items-center justify-center m-2">
-                            <a href="/guides" on:click={closeDrawer} class="flex btn variant-ghost-primary gap-3 hover:cursor-pointer">
+                        <div class="flex gap-5 m-5 items-center">
+                            <Avatar initials="?" width="w-1/6" rounded="rounded-full" shadow="shadow-lg" />
+                            <div class="flex flex-col gap-1">
+                                <p>Hi there!</p>
+                                <small class="text-surface-600-300-token">You are not signed in.</small>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="flex justify-center w-full my-5">
+                            <a href="/guides" on:click={closeDrawer} class="btn flex gap-3 variant-ghost-primary mx-3 w-full text-sm">
                                 <i class='bx bx-book-bookmark scale-125'></i>
                                 Guides
                             </a>
-
-                            <a href="/login" on:click={closeDrawer} class="flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
+                            <a href="/logout" class="btn flex gap-3 variant variant-ghost-surface w-full mx-3 text-sm">
                                 <i class='bx bxl-github scale-125'></i>
-                                Login with GitHub
+                                Login
                             </a>
                         </div>
+
+                        <hr/>
                     {/if}
                 </Drawer>
 

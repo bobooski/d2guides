@@ -58,6 +58,7 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
         }).then(res => res.json());
 
         event.cookies.set('access_token', response.access_token);
+        throw redirect(308, REDIRECT_URI);
     }
 
     return resolve(event);
