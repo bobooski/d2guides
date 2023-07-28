@@ -104,7 +104,7 @@
                                 <i class='bx bx-book-bookmark scale-125'></i>
                                 Guides
                             </a>
-                            <a href="/logout" class="btn flex gap-3 variant variant-ghost-surface w-full mx-3 text-sm">
+                            <a href="/login" class="btn flex gap-3 variant variant-ghost-surface w-full mx-3 text-sm">
                                 <i class='bx bxl-github scale-125'></i>
                                 Login
                             </a>
