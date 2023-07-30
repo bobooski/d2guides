@@ -38,7 +38,7 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
             code: event.url.searchParams.get('code') ?? ''
         });
 
-        const response = await fetch('https://www.bungie.net/Platform/App/OAuth/token/?' + params, {
+        const response = await fetch('https://www.bungie.net/Platform/App/OAuth/token?' + params, {
             headers: {
                 'Authorization': `Basic ${API_KEY}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
