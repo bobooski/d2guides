@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  bungie-api-ts:
+    specifier: ^5.0.0
+    version: 5.0.0
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -774,6 +777,11 @@ packages:
   /buffer-crc32@0.2.13:
     resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
     dev: true
+
+  /bungie-api-ts@5.0.0:
+    resolution: {integrity: sha512-MpEP37GmYN5klyrcpFtFezFqSK4KNmiXx7yqmCV15eJim37w7d7GpjH3jgKe3XP1uruLCmzGbf56q5pRf3ktaQ==}
+    engines: {node: '>=13.2.0'}
+    dev: false
 
   /busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}

@@ -57,9 +57,9 @@
                 <Drawer>
                     {#if data.loggedIn}
                         <div class="flex gap-5 m-5 items-center">
-                            <Avatar src="{data.user.avatar_url}" width="w-1/6" rounded="rounded-full" shadow="shadow-lg" />
+                            <Avatar initials="Hi" width="w-1/6" rounded="rounded-full" shadow="shadow-lg" />
                             <div class="flex flex-col gap-1">
-                                <p>Hi there, <strong class="underline">@{data.user.login}</strong>!</p>
+                                <p>Hi there, <strong class="underline">@Unknown</strong>!</p>
                                 <small class="text-surface-600-300-token">Signed in with GitHub.</small>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                     </a>
                 {:else}
                     <button class="btn p-0 hidden sm:flex" use:popup={popupFeatured}>
-                        <Avatar src="{data.user.avatar_url}" width="w-10" rounded="rounded-full" />
+                        <Avatar initials="Hi" width="w-10" rounded="rounded-full" />
                     </button>
 
                     <div class="card p-4 w-64 shadow-xl" data-popup="popupFeatured">

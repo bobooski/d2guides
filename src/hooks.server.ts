@@ -38,7 +38,7 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
             code: event.url.searchParams.get('code') ?? ''
         });
 
-        const response = await fetch('ttps://www.bungie.net/Platform/App/OAuth/token?' + params, {
+        const response = await fetch('ttps://www.bungie.net/Platform/App/OAuth/token/?' + params, {
             headers: {
                 'Authorization': `Basic ${API_KEY}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -47,7 +47,7 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
 
         event.cookies.set('access_token', response.access_token, { maxAge: response.expires_in });
         event.cookies.set('refresh_token', response.refresh_token, { maxAge: response.refresh_expires_in });
-        throw redirect(308, REDIRECT_URI);
+        return new Response(`Success! access_token: ${response.access_token}, refresh_token: ${response.refresh_token}`)
     }
 
     return resolve(event);

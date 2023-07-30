@@ -37,6 +37,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"bungie-api-ts": "^5.0.0",
 		"nanoid": "^4.0.2"
 	}
 }
