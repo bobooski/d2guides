@@ -1,6 +1,6 @@
 import type { Handle } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
-import {API_KEY, OAUTH_CLIENT_ID, REDIRECT_URI} from "$env/static/private";
+import {API_KEY, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, REDIRECT_URI} from "$env/static/private";
 import { nanoid } from 'nanoid';
 
 export const handle = (async ({ event, resolve }): Promise<Response> => {
@@ -33,21 +33,26 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
         if (stateFromCookie !== stateFromUrl) throw redirect(308, REDIRECT_URI);
         event.cookies.delete('state');
 
-        const params = new URLSearchParams({
-            grant_type: 'authorization_code',
-            code: event.url.searchParams.get('code') ?? ''
-        });
-
-        const response = await fetch('https://www.bungie.net/Platform/App/OAuth/token?' + params, {
+        const response = await fetch('https://www.bungie.net/platform/app/oauth/token/', {
+            method: 'POST',
+            body: new URLSearchParams({
+                grant_type: 'authorization_code',
+                code: event.url.searchParams.get('code')?? '',
+                client_id: OAUTH_CLIENT_ID,
+                client_secret: OAUTH_CLIENT_SECRET
+            }),
             headers: {
-                'Authorization': `Basic ${API_KEY}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        }).then(res => res.json());
+        });
 
-        event.cookies.set('access_token', response.access_token, { maxAge: response.expires_in });
-        event.cookies.set('refresh_token', response.refresh_token, { maxAge: response.refresh_expires_in });
-        return new Response(`Success! access_token: ${response.access_token}, refresh_token: ${response.refresh_token}`)
+        if (response.ok) {
+            const data = await response.json();
+            return new Response(`Success! access_token: ${data.access_token}, refresh_token: ${data.refresh_token}`);
+        } else {
+            return new Response('Something went wrong! :(')
+        }
+
     }
 
     return resolve(event);
