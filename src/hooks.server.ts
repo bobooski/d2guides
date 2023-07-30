@@ -3,15 +3,6 @@ import { redirect } from "@sveltejs/kit";
 import {API_KEY, OAUTH_CLIENT_ID, REDIRECT_URI} from "$env/static/private";
 import { nanoid } from 'nanoid';
 
-type TokenResponse = {
-    access_token:       string;
-    token_type:         string;
-    expires_in:         number;
-    refresh_token:      string;
-    refresh_expires_in: number;
-    membership_id:      string;
-}
-
 export const handle = (async ({ event, resolve }): Promise<Response> => {
 
     if (event.url.pathname.startsWith('/login')) {
@@ -47,7 +38,7 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
             code: event.url.searchParams.get('code') ?? ''
         });
 
-        const response: TokenResponse = await fetch('ttps://www.bungie.net/Platform/App/OAuth/token?' + params, {
+        const response = await fetch('ttps://www.bungie.net/Platform/App/OAuth/token?' + params, {
             headers: {
                 'Authorization': `Basic ${API_KEY}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
