@@ -105,7 +105,6 @@
                                 Guides
                             </a>
                             <a href="/login" class="btn flex gap-3 variant variant-ghost-surface w-full mx-3 text-sm">
-                                <i class='bx bxl-github scale-125'></i>
                                 Login
                             </a>
                         </div>
@@ -120,8 +119,7 @@
                 </a>
                 {#if !data.loggedIn}
                     <a href="/login" class="hidden sm:flex btn variant-ghost-surface gap-3 hover:cursor-pointer">
-                        <i class='bx bxl-github scale-125'></i>
-                        Login with GitHub
+                        Login with Bungie
                     </a>
                 {:else}
                     <button class="btn p-0 hidden sm:flex" use:popup={popupFeatured}>

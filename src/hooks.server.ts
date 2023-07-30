@@ -1,7 +1,16 @@
 import type { Handle } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
-import {OAUTH_CLIENT_ID, REDIRECT_URI} from "$env/static/private";
+import {API_KEY, OAUTH_CLIENT_ID, REDIRECT_URI} from "$env/static/private";
 import { nanoid } from 'nanoid';
+
+type TokenResponse = {
+    access_token:       string;
+    token_type:         string;
+    expires_in:         number;
+    refresh_token:      string;
+    refresh_expires_in: number;
+    membership_id:      string;
+}
 
 export const handle = (async ({ event, resolve }): Promise<Response> => {
 
@@ -25,33 +34,30 @@ export const handle = (async ({ event, resolve }): Promise<Response> => {
         throw redirect(308, REDIRECT_URI);
     }
 
-    // if (event.url.searchParams.has('code') && event.url.searchParams.has('state')) {
-    //     if (!event.cookies.get('state')) throw redirect(308, REDIRECT_URI);
-    //
-    //     const code = event.url.searchParams.get('code') ?? '';
-    //     const stateFromUrl = event.url.searchParams.get('state');
-    //     const stateFromCookie = event.cookies.get('state');
-    //
-    //     if (stateFromCookie !== stateFromUrl) throw redirect(308, REDIRECT_URI);
-    //     event.cookies.delete('state');
-    //
-    //     const params = new URLSearchParams({
-    //         client_id: CLIENT_ID,
-    //         client_secret: CLIENT_SECRET,
-    //         code: code,
-    //         redirect_uri: REDIRECT_URI
-    //     });
-    //
-    //     const response: TokenResponse = await fetch('https://github.com/login/oauth/access_token?' + params, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': "application/json"
-    //         }
-    //     }).then(res => res.json());
-    //
-    //     event.cookies.set('access_token', response.access_token);
-    //     throw redirect(308, REDIRECT_URI);
-    // }
+    if (event.url.searchParams.has('code') && event.url.searchParams.has('state')) {
+        if (!event.cookies.get('state')) throw redirect(308, REDIRECT_URI);
+
+        const stateFromUrl = event.url.searchParams.get('state');
+        const stateFromCookie = event.cookies.get('state');
+        if (stateFromCookie !== stateFromUrl) throw redirect(308, REDIRECT_URI);
+        event.cookies.delete('state');
+
+        const params = new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: event.url.searchParams.get('code') ?? ''
+        });
+
+        const response: TokenResponse = await fetch('ttps://www.bungie.net/Platform/App/OAuth/token?' + params, {
+            headers: {
+                'Authorization': `Basic ${API_KEY}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(res => res.json());
+
+        event.cookies.set('access_token', response.access_token, { maxAge: response.expires_in });
+        event.cookies.set('refresh_token', response.refresh_token, { maxAge: response.refresh_expires_in });
+        throw redirect(308, REDIRECT_URI);
+    }
 
     return resolve(event);
 }) satisfies Handle;
